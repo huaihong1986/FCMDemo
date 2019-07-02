@@ -1,6 +1,8 @@
 package com.intent.fcmdemo;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -12,13 +14,15 @@ import com.google.firebase.messaging.RemoteMessage;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
-
+    public static final String ELITOR_CLOCK = "ELITOR_CLOCK";
     private static final String TAG = "message";
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         // ...
-
+        String type = "1";
+        String title = "Color Peace";
+        String body = "New images available for coloring!";
         // TODO(developer): Handle FCM messages here.
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
         Log.d(TAG, "From: " + remoteMessage.getFrom());
@@ -30,19 +34,34 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
-            Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
+            Log.d(TAG, "Message data Body: " + remoteMessage.getNotification().getBody());
         }
 
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
 
-        nofiyUser(remoteMessage.getNotification().getTitle(),remoteMessage.getNotification().getBody());
+
+        nofiyUser(title, body, type);
     }
 
+// Check if message contains a notification payload.
 
-    public  void nofiyUser(String from,String Notification){
-        MyNotificationManager myNotificationManager = new MyNotificationManager(getApplicationContext());
-        myNotificationManager.showNotification(from,Notification,new Intent(getApplicationContext(), MainActivity.class));
+
+// Also if you intend on generating your own notifications as a result of a received FCM
+// message, here is where that should be initiated. See sendNotification method below.
+
+
+    public void nofiyUser(String title, String Notification, String type) {
+        Log.e(TAG,"data=nofiyUser"+type);
+        try {
+            MyNotificationManager myNotificationManager = new MyNotificationManager(getApplicationContext());
+//      Intent notificationIntent = new Intent(getApplicationContext(), com.app.push.MyReceiver.class);
+//      notificationIntent.setAction(ELITOR_CLOCK);
+            Intent notificationIntent = new Intent(getApplicationContext(), MainActivity.class);
+            notificationIntent.putExtra("type", type);
+            myNotificationManager.showNotification(title, Notification, notificationIntent);
+        } catch (Throwable throwable) {
+Log.e(TAG,"data="+throwable.toString());
+        }
     }
-
 }

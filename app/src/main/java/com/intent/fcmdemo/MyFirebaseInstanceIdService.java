@@ -12,7 +12,7 @@ import com.google.firebase.iid.FirebaseInstanceIdService;
 
 public class MyFirebaseInstanceIdService extends FirebaseInstanceIdService {
 
-        public static final String br = "brc";
+    public static final String br = "brc";
     @Override
     public void onTokenRefresh() {
         // Get updated InstanceID token.

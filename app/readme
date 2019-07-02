@@ -1,0 +1,10 @@
+keytool -list -v -keystore debug.keystore -alias androiddebugkey -storepass android -keypass android
+执行以上命令：获取在创建FCM应用时，需要的SHA1 密钥。
+（分debug，release 参考网址：
+https://blog.csdn.net/ljcitworld/article/details/82691764）
+debug.keystore 文件来源于C:\Users\huaihong\.android
+需要SHA1 密钥：步骤：
+1.从C:\Users\huaihong\.android目录下将debug.keystore文件copy在项目目录下，此项目目录就是D:\huaihongintent\FCMDemo>
+2.然后在，Android Studio 项目的Terminal 执行keytool -list -v -keystore debug.keystore -alias androiddebugkey -storepass android -keypass android
+3.推送时，对应需要的令牌：MyFirebaseInstanceIdService文件中 String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+

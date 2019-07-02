@@ -7,18 +7,15 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
-
-
-/**
- * Created by Administrator on 5/24/2017.
- */
+import static com.intent.fcmdemo.MyFirebaseMessagingService.ELITOR_CLOCK;
 
 public class MyNotificationManager {
 
+    private final static  String TAG = "MyNotificationManager";
     private Context mcontext;
-    public static final int noid = 255;
 
     public MyNotificationManager(Context context) {
 
@@ -26,13 +23,21 @@ public class MyNotificationManager {
     }
 
     public void showNotification(String from, String notification, Intent intent) {
+        Notification.Builder builder = null;
+        int id = (int) (System.currentTimeMillis() / 1000);
+        //CLICK ON NOTIFICATION
+//        PendingIntent pendingIntent = PendingIntent.getBroadcast(mcontext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         PendingIntent pendingIntent = PendingIntent.getActivity(
                 mcontext,
-                noid,
+                id,
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT
         );
-        Notification.Builder builder = null;
+//        Intent mediaPlayerReceiver = new Intent(ELITOR_CLOCK);
+//        mediaPlayerReceiver.putExtra("notification", "1");
+//        mediaPlayerReceiver.setClass(mcontext, MyReceiver.class);
+//        PendingIntent pendingIntent = PendingIntent.getBroadcast(mcontext,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+
 
         NotificationManager mManager = (NotificationManager) mcontext.getSystemService(NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
@@ -61,7 +66,7 @@ public class MyNotificationManager {
         }
 
         Notification mnotification = builder.build();
-        mManager.notify(noid, mnotification);
-
+        mManager.notify(id, mnotification);
+        Log.e(TAG,"data=showNotification"+from);
     }
 }
